@@ -1,3 +1,2 @@
 # BezierProfile
-FRC Bezier Curve Manager
-full credit to https://pomax.github.io/bezierinfo/
+FRC Bezier Curve Manager https://pomax.github.io/bezierinfo/
