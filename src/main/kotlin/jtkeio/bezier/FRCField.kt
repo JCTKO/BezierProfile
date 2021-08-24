@@ -1,9 +1,7 @@
 package jtkeio.bezier
 
 
-class FRCField(vararg initialBoundaries: Boundary) {
+class FRCField(vararg initialBoundaries: Pair<Double, Double>) {
 
-    val fieldBoundaries = arrayListOf<Boundary>().apply{
-        addAll(initialBoundaries)
-    }
+    val fieldBoundaries = arrayListOf<Pair<Double, Double>>().addAll(initialBoundaries)
 }

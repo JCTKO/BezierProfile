@@ -1,3 +1,5 @@
 package jtkeio.bezier
 
-class BezierProfileManager(val field: FRCField) {}
+class BezierProfileManager(val field: FRCField) {
+
+}
