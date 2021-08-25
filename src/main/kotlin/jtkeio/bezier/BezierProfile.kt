@@ -6,7 +6,7 @@ import kotlin.math.pow
 
 
 //FRC-targeted 2D bezier curve manager for smooth, accurate movement //entirely unoptimized lol
-class BezierProfile(val waypoints: Array<Pair<Double,Double>>) {
+class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
 
     //This profile is used to calculate the angle of a curve by calling calculateIntegralBezierAngle() on the derivativeBezierProfile of the original curve
     val derivativeBezierProfile: BezierProfile by lazy {BezierProfile(Array(waypoints.size - 1){ i -> (waypoints.size) * (waypoints[i + 1].first - waypoints[i].first) to (waypoints.size) * (waypoints[i + 1].second - waypoints[i].second)})}
