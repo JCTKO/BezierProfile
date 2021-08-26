@@ -5,7 +5,7 @@ import kotlin.math.atan2
 import kotlin.math.pow
 
 
-//FRC-targeted 2D bezier curve manager for smooth, accurate movement //entirely unoptimized lol
+//2D Bézier curves for FRC pathfinding
 class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
 
     //This profile is used to calculate the angle of a curve by calling calculateIntegralBezierAngle() on the derivativeBezierProfile of the original curve
