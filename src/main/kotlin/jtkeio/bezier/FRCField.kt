@@ -41,7 +41,7 @@ class FRCField(vararg initialBoundaries: Pair<Pair<Double, Double>, Pair<Double,
     //Clears all obstacles
     fun clearObstacles() = fieldObstacles.clear()
 
-    //Returns a 256x512 jpg of the field with boundaries drawn in white and obstacles drawn in red
+    //Returns a 256x512 jpg of the field with boundaries drawn in white and obstacles drawn in red (over another image if given)
     fun drawField(imageOnWhichToDraw: BufferedImage = BufferedImage(256, 512, TYPE_INT_RGB)): BufferedImage {
         if (imageOnWhichToDraw.width!=256 || imageOnWhichToDraw.height != 512) {
             throw IllegalArgumentException("Image passed into drawField() in FRCField $this must have dimensions 256x512 (passed ${imageOnWhichToDraw.width}x${imageOnWhichToDraw.height})")

@@ -1,8 +1,8 @@
 package jtkeio.bezier
 
-import kotlin.math.PI
-import kotlin.math.atan2
-import kotlin.math.pow
+import java.awt.Color
+import java.awt.image.BufferedImage
+import kotlin.math.*
 
 
 //2D Bézier curves for FRC pathfinding
@@ -36,5 +36,25 @@ class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
         if (howFarAlongFromZeroToOne<0 || howFarAlongFromZeroToOne>1) {throw IllegalArgumentException("howFarAlongFromZeroToOne must be between or equal to 0 and 1 (passed $howFarAlongFromZeroToOne)")}
         val point = calculateBezierPoint(howFarAlongFromZeroToOne)
         return atan2(y = point.second, x = point.first)*180/PI
+    }
+
+    //Returns a 256x512 jpg of this Bézier curve drawn in green or a given color (over another image if given)
+    fun drawBezierProfile(imageOnWhichToDraw: BufferedImage = BufferedImage(256, 512, BufferedImage.TYPE_INT_RGB), color: Color = Color(0, 200, 0)): BufferedImage {
+        if (imageOnWhichToDraw.width!=256 || imageOnWhichToDraw.height != 512) {
+            throw IllegalArgumentException("Image passed into drawBezierProfile() in BezierProfile $this must have dimensions 256x512 (passed ${imageOnWhichToDraw.width}x${imageOnWhichToDraw.height})")
+        } else {
+            return imageOnWhichToDraw.apply {
+                val graphicBezier = BezierProfile(waypoints.map{ it.first * 25 to it.second * 25}.toTypedArray())
+                val bezierProfilePixels = Array(256){calculateBezierPoint(it/256.toDouble())}.run {
+                    foldIndexed(0.0) { index, accumulator, currentPoint ->
+                        if (index != this.lastIndex) {accumulator + sqrt((this[index+1].second-currentPoint.second).pow(2) + (this[index+1].first-currentPoint.first).pow(2))} else {accumulator}
+                    } * 25
+                }.toInt()
+                for (z in 0 until bezierProfilePixels) {
+                    val (x, y) = graphicBezier.calculateBezierPoint(z / bezierProfilePixels.toDouble())
+                    setRGB(x.roundToInt() + 25, this.height - y.roundToInt() - 45, color.rgb)
+                }
+            }
+        }
     }
 }
