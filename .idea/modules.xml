@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/src/test/kotlin.iml" filepath="$PROJECT_DIR$/src/test/kotlin.iml" />
       <module fileurl="file://$PROJECT_DIR$/src/main/src/main.iml" filepath="$PROJECT_DIR$/src/main/src/main.iml" />
     </modules>
   </component>

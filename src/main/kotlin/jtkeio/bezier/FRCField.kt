@@ -11,6 +11,13 @@ import kotlin.math.sqrt
 //Line-based field descriptions for FRC pathfinding
 class FRCField(vararg initialBoundaries: Pair<Pair<Double, Double>, Pair<Double, Double>>) {
 
+    //Check that all initialBoundaries aren't extraneous
+    init { initialBoundaries.forEachIndexed { index, boundary ->
+        if (boundary.first.first<0.0 || boundary.first.first>8.2 || boundary.first.second<0.0 || boundary.first.second>16.6 || boundary.second.first<0.0 || boundary.second.first>8.2 || boundary.second.second<0.0 || boundary.second.second>16.6) {
+            throw IllegalArgumentException("initialBoundary at index $index in constructor of FRCField $this contained invalid coordinates (passed (${boundary.first.first}, ${boundary.first.second}) and (${boundary.second.first}, ${boundary.second.second}), coordinate values must be between (0.0, 0.0) and (8.2, 16.6)")
+        }
+    }}
+
     //Boundaries are permanent (like the field walls) and obstacles are temporary (like other robots)
     private val fieldBoundaries: ArrayList<Pair<Pair<Double, Double>, Pair<Double, Double>>> = arrayListOf<Pair<Pair<Double, Double>, Pair<Double, Double>>>().apply { addAll(initialBoundaries) }
     private val fieldObstacles: ArrayList<Pair<Pair<Double, Double>, Pair<Double, Double>>> = arrayListOf()
