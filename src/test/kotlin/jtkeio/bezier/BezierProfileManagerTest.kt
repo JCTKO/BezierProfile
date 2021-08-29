@@ -12,7 +12,7 @@ fun main() {
         (8.1 to 16.5) to (0.0 to 16.5),
         (0.0 to 16.5) to (0.0 to 0.0)
     )
-    field.addObstacle((2.0 to 2.0) to (4.0 to 2.5))
+    field.addObstacle((2.0 to 4.0) to (4.0 to 4.5))
     val fieldImage = field.drawField()
     val manager = BezierProfileManager(field)
 
@@ -26,10 +26,10 @@ fun main() {
     frame.isVisible = true
 
     while (true) {
-        for (i in 0 until 90) {
-            val currentImage = manager.generateBezierProfile(4.0 to 6.0, 5.0 to 12.0, 4*i.toDouble(), 0.0).drawBezierProfile(fieldImage)
+        for (i in 0 until 359) {
+            val currentImage = manager.generateBezierProfile(2.0 to 2.0, 7.0 to 15.0, i.toDouble()).drawBezierProfile(fieldImage)
             label.icon = ImageIcon(currentImage)
-            Thread.sleep(100)
+            Thread.sleep(40)
         }
     }
 }

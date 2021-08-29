@@ -61,6 +61,11 @@ class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
                     if (x < 0 || x > 230 || y < 0 || y > 557) { continue }
                     setRGB(x.roundToInt() + 25, this.height - y.roundToInt() - 45, color.rgb)
                 }
+                for (w in waypoints) {
+                    val x = w.first * 25; val y = w.second * 25
+                    if (x < 0 || x > 230 || y < 0 || y > 557) { continue }
+                    setRGB(x.roundToInt() + 25, this.height - y.roundToInt() - 44, Color(50, 200, 255).rgb)
+                }
             }
         }
     }
