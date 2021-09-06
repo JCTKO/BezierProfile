@@ -28,8 +28,8 @@ fun main() {
     }
 
     while (true) {
-        for (i in 0 until 359) {
-            val baseProfile = manager.generateBezierProfile(4.0 to 3.0, 2.0 to 11.0, i.toDouble())
+        for (i in 0 until 2513) {
+            val baseProfile = manager.generateBezierProfile(4.0 to 5.0, 5.0 to 4.0, i%360.toDouble(), -i/7.0)
             val currentImage = baseProfile.drawBezierProfile(fieldImage)
             label.icon = ImageIcon(currentImage)
             Thread.sleep(30)
