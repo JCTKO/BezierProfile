@@ -15,9 +15,9 @@ class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
     //Utility function that recursively generates binomial coefficients by pascal's triangle
     private fun calculateBinomialCoefficients(numberOfCoefficients: Int = waypoints.size): Array<Int> {
         if (numberOfCoefficients < 1) {throw IllegalArgumentException("numberOfCoefficients must be greater than 0 to calculate binomial coefficients (passed $numberOfCoefficients)")}
-        if (numberOfCoefficients==1) {return arrayOf(1)} else {
+        return if (numberOfCoefficients==1) { arrayOf(1) } else {
             val old = calculateBinomialCoefficients(numberOfCoefficients-1).copyInto(Array(numberOfCoefficients+1){0}, 1)
-            return Array(numberOfCoefficients){old[it] + old[it+1]}
+            Array(numberOfCoefficients){old[it] + old[it+1]}
         }
     }
 
@@ -39,25 +39,16 @@ class BezierProfile(val waypoints: Array<Pair<Double, Double>>) {
     }
 
     //Returns a 256x512 jpg of this Bézier curve drawn in green or a given color (over another image if given), representing a path over the FRC field
-    fun drawBezierProfile(imageOnWhichToDraw: BufferedImage = BufferedImage(256, 512, BufferedImage.TYPE_INT_RGB), color: Color = Color(0, 200, 0)): BufferedImage {
-        if (imageOnWhichToDraw.width!=256 || imageOnWhichToDraw.height != 512) {
+    fun drawBezierProfile(imageOnWhichToDraw: BufferedImage = BufferedImage(256, 512, BufferedImage.TYPE_INT_RGB), color: Color = Color(0, 200, 0), resolution: Int = 1024): BufferedImage {
+        if (imageOnWhichToDraw.width != 256 || imageOnWhichToDraw.height != 512) {
             throw IllegalArgumentException("Image passed into drawBezierProfile() in BezierProfile $this must have dimensions 256x512 (passed ${imageOnWhichToDraw.width}x${imageOnWhichToDraw.height})")
         } else {
             val workingImage = BufferedImage(256, 512, BufferedImage.TYPE_INT_RGB)
             workingImage.data = imageOnWhichToDraw.data
             return workingImage.apply {
                 val graphicBezier = BezierProfile(waypoints.map { it.first * 25 to it.second * 25 }.toTypedArray())
-                val bezierProfilePixels = Array(256) { calculateBezierPoint(it / 256.toDouble()) }.run {
-                    foldIndexed(0.0) { index, accumulator, currentPoint ->
-                        if (index != this.lastIndex) {
-                            accumulator + sqrt((this[index + 1].second - currentPoint.second).pow(2) + (this[index + 1].first - currentPoint.first).pow(2))
-                        } else {
-                            accumulator
-                        }
-                    } * 25
-                }.toInt()
-                for (z in 0 until bezierProfilePixels) {
-                    val (x, y) = graphicBezier.calculateBezierPoint(z / bezierProfilePixels.toDouble())
+                for (z in 0 until resolution) {
+                    val (x, y) = graphicBezier.calculateBezierPoint(z / resolution.toDouble())
                     if (x < 0 || x > 230 || y < 0 || y > 412) { continue }
                     setRGB(x.roundToInt() + 25, this.height - y.roundToInt() - 45, color.rgb)
                 }
